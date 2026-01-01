@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор раскладки элементов этапа</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Калькулятор раскладки элементов этапа</h1>
+        
+        <div class="input-section">
+            <h2>Входные параметры</h2>
+            
+            <div class="input-group">
+                <label for="l_axes">L_axes (мм) — расстояние между осями:</label>
+                <input type="text" id="l_axes" value="6000" placeholder="6000">
+            </div>
+            
+            <div class="input-group">
+                <label for="l_edges">L_edges (мм) — расстояние между краями платформ:</label>
+                <input type="text" id="l_edges" placeholder="4500">
+            </div>
+            
+            <div class="input-group">
+                <label for="d_left">Платформа слева D_left (мм):</label>
+                <select id="d_left">
+                    <option value="1200">1200</option>
+                    <option value="1500" selected>1500</option>
+                    <option value="1800">1800</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="d_right">Платформа справа D_right (мм):</label>
+                <select id="d_right">
+                    <option value="1200">1200</option>
+                    <option value="1500" selected>1500</option>
+                    <option value="1800">1800</option>
+                </select>
+            </div>
+            
+            <div class="input-group">
+                <label for="element_type">Тип элемента:</label>
+                <select id="element_type">
+                    <option value="board">Доска</option>
+                    <option value="board_ropes">Доска на канатах</option>
+                </select>
+            </div>
+            
+            <div class="input-group" id="s_group" style="display: none;">
+                <label for="s">s (мм) — отступ подвеса от края:</label>
+                <input type="text" id="s" value="60" placeholder="60">
+            </div>
+            
+            <div class="input-group">
+                <label for="a_min">a_min (мм) — минимальный отступ:</label>
+                <input type="text" id="a_min" value="100" placeholder="100">
+            </div>
+            
+            <div class="input-group">
+                <label for="a_max">a_max (мм) — максимальный отступ:</label>
+                <input type="text" id="a_max" value="400" placeholder="400">
+            </div>
+            
+            <div class="input-group">
+                <label for="w">w (мм) — ширина элемента:</label>
+                <input type="text" id="w" value="145" placeholder="145">
+            </div>
+            
+            <div class="input-group">
+                <label for="g_target">g_target (мм) — желаемый шаг:</label>
+                <input type="text" id="g_target" value="400" placeholder="400">
+            </div>
+            
+            <div class="button-group">
+                <button id="btn_autofit">Автоподбор</button>
+                <button id="btn_minus">−1 элемент</button>
+                <button id="btn_plus">+1 элемент</button>
+            </div>
+        </div>
+        
+        <div class="visualization-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h2 style="margin: 0;">Схема</h2>
+                <button id="btn_print" class="print-button">Печать схемы</button>
+                <button id="btn_export_pdf" class="print-button">Экспорт в PDF</button>
+            </div>
+            <div id="error_message" class="error-message" style="display: none;"></div>
+            <svg id="diagram" width="1000"></svg>
+        </div>
+        
+        <div class="output-section" id="output_section" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h2 style="margin: 0;">Результаты расчёта</h2>
+                <button id="btn_toggle_output" class="toggle-output-button">Скрыть результаты</button>
+            </div>
+            <div id="output_values"></div>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="btn_show_output" class="show-output-button">Показать результаты расчёта</button>
+        </div>
+        
+        <div class="log-section" id="log_section" style="display: none;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <h2 style="margin: 0;">Лог</h2>
+                <button id="btn_toggle_log" class="toggle-log-button">Скрыть лог</button>
+            </div>
+            <pre id="log"></pre>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button id="btn_show_log" class="show-log-button">Показать лог</button>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
