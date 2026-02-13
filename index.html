@@ -1,120 +1,95 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калькулятор раскладки элементов этапа</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>План‑схема между платформами</title>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-    <div class="container">
-        <h1>Калькулятор раскладки элементов этапа</h1>
-        
-        <div class="input-section">
-            <h2>Входные параметры</h2>
-            
-            <div class="input-group">
-                <label for="l_axes">L_axes (мм) — расстояние между осями:</label>
-                <input type="text" id="l_axes" value="6000" placeholder="6000">
-            </div>
-            
-            <div class="input-group">
-                <label for="l_edges">L_edges (мм) — расстояние между краями платформ:</label>
-                <input type="text" id="l_edges" placeholder="4500">
-            </div>
-            
-            <div class="input-group">
-                <label for="d_left">Платформа слева D_left (мм):</label>
-                <select id="d_left">
-                    <option value="1200">1200</option>
-                    <option value="1500" selected>1500</option>
-                    <option value="1800">1800</option>
-                </select>
-            </div>
-            
-            <div class="input-group">
-                <label for="d_right">Платформа справа D_right (мм):</label>
-                <select id="d_right">
-                    <option value="1200">1200</option>
-                    <option value="1500" selected>1500</option>
-                    <option value="1800">1800</option>
-                </select>
-            </div>
-            
-            <div class="input-group">
-                <label for="element_type">Тип элемента:</label>
-                <select id="element_type">
-                    <option value="board">Доска</option>
-                    <option value="board_ropes">Доска на канатах</option>
-                </select>
-            </div>
-            
-            <div class="input-group" id="s_group" style="display: none;">
-                <label for="s">s (мм) — отступ подвеса от края:</label>
-                <input type="text" id="s" value="60" placeholder="60">
-            </div>
-            
-            <div class="input-group">
-                <label for="a_min">a_min (мм) — минимальный отступ:</label>
-                <input type="text" id="a_min" value="100" placeholder="100">
-            </div>
-            
-            <div class="input-group">
-                <label for="a_max">a_max (мм) — максимальный отступ:</label>
-                <input type="text" id="a_max" value="400" placeholder="400">
-            </div>
-            
-            <div class="input-group">
-                <label for="w">w (мм) — ширина элемента:</label>
-                <input type="text" id="w" value="145" placeholder="145">
-            </div>
-            
-            <div class="input-group">
-                <label for="g_target">g_target (мм) — желаемый шаг:</label>
-                <input type="text" id="g_target" value="400" placeholder="400">
-            </div>
-            
-            <div class="button-group">
-                <button id="btn_autofit">Автоподбор</button>
-                <button id="btn_minus">−1 элемент</button>
-                <button id="btn_plus">+1 элемент</button>
-            </div>
+  <div class="container">
+    <header>
+      <h1>План‑схема между платформами</h1>
+    </header>
+
+    <section class="controls">
+      <div class="col">
+        <label>Длина между осями платформ (мм)
+          <input id="L_axes" type="number" step="1" value="2000" />
+        </label>
+        <label>Длина между краями платформ (мм)
+          <input id="L_edges" type="number" step="1" value="1600" />
+        </label>
+        <label>Диаметр левой платформы
+          <select id="D_left">
+            <option value="1200">120 см</option>
+            <option value="1500" selected>150 см</option>
+            <option value="1800">180 см</option>
+          </select>
+        </label>
+        <label>Диаметр правой платформы
+          <select id="D_right">
+            <option value="1200">120 см</option>
+            <option value="1500" selected>150 см</option>
+            <option value="1800">180 см</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="col">
+        <label>Тип элемента
+          <select id="el_type">
+            <option value="board">Доска</option>
+            <option value="board_rope">Доска на канатах</option>
+            <option value="rope">Канат</option>
+          </select>
+        </label>
+        <label>Ширина доски w (мм)
+          <input id="w" type="number" step="1" value="200" />
+        </label>
+        <label id="s_wrap">Отступ подвеса s (мм) — для доски на канатах
+          <input id="s" type="number" step="1" value="20" />
+        </label>
+        <label>Отступ a_min (мм)
+          <input id="a_min" type="number" step="1" value="50" />
+        </label>
+        <label>Отступ a_max (мм)
+          <input id="a_max" type="number" step="1" value="200" />
+        </label>
+        <label>Желаемый шаг g_target (мм)
+          <input id="g_target" type="number" step="1" value="222" />
+        </label>
+      </div>
+
+      <div class="col actions">
+        <button id="autofit">Автоподбор</button>
+        <div class="n-control">
+          <button id="dec_n">−</button>
+          <input id="n_manual" type="number" step="1" value="5" />
+          <button id="inc_n">+</button>
         </div>
-        
-        <div class="visualization-section">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h2 style="margin: 0;">Схема</h2>
-                <button id="btn_print" class="print-button">Печать схемы</button>
-                <button id="btn_export_pdf" class="print-button">Экспорт в PDF</button>
-            </div>
-            <div id="error_message" class="error-message" style="display: none;"></div>
-            <svg id="diagram" width="1000"></svg>
-        </div>
-        
-        <div class="output-section" id="output_section" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h2 style="margin: 0;">Результаты расчёта</h2>
-                <button id="btn_toggle_output" class="toggle-output-button">Скрыть результаты</button>
-            </div>
-            <div id="output_values"></div>
-        </div>
-        <div style="text-align: center; margin-top: 20px;">
-            <button id="btn_show_output" class="show-output-button">Показать результаты расчёта</button>
-        </div>
-        
-        <div class="log-section" id="log_section" style="display: none;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-                <h2 style="margin: 0;">Лог</h2>
-                <button id="btn_toggle_log" class="toggle-log-button">Скрыть лог</button>
-            </div>
-            <pre id="log"></pre>
-        </div>
-        <div style="text-align: center; margin-top: 20px;">
-            <button id="btn_show_log" class="show-log-button">Показать лог</button>
-        </div>
-    </div>
-    
-    <script src="script.js"></script>
+        <button id="print">Печать</button>
+        <button id="export">Экспорт SVG</button>
+      </div>
+    </section>
+
+    <section class="main">
+      <div class="svg-wrap">
+        <svg id="canvas" viewBox="0 0 1200 400" preserveAspectRatio="xMidYMid meet"></svg>
+      </div>
+    </section>
+    <section class="results-row">
+      <aside class="info">
+        <h2>Результаты</h2>
+        <div id="results"></div>
+      </aside>
+    </section>
+
+    <footer>
+      <small>Автоподбор выполняется при загрузке страницы.</small>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
 </body>
 </html>
